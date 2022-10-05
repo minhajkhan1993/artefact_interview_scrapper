@@ -3,6 +3,7 @@ from subprocess import call
 import scrapy
 import re
 from .page_scrappers import PageScrapper
+import os
 
 
 class QuotesSpider(scrapy.Spider):
@@ -10,7 +11,7 @@ class QuotesSpider(scrapy.Spider):
 
     # top level request processing function that is called by scrapy.
     def start_requests(self):  
-        return self.process_requests('https://www.bbc.com/news',0)
+        return self.process_requests(os.environ.get('WEBSITE'),0)
 
     
     # callback for start_requests.
@@ -34,13 +35,13 @@ class QuotesSpider(scrapy.Spider):
                 # check if url has format "/news/...{7 digit id starting with 6}". These are bbc news reports
                 if re.search("\/news\/.*6\d{7}", url):
                     if not re.search('bbc.co',url):
-                        url = 'https://www.bbc.com' + url
+                        url = os.environ.get('WEBSITE_BASE_URL') + url
                     yield scrapy.Request(url=url, callback=page_scrapper.parse_news_page) 
                 
                 # check if url has format ".../article/...". These are bbc op-ed articles
                 elif re.search("article", url):
                     if not re.search('bbc.co',url):
-                        url = 'https://www.bbc.com' + url
+                        url = os.environ.get('WEBSITE_BASE_URL') + url
                     yield scrapy.Request(url=url, callback=page_scrapper.parse_article_page)
                 
                 # parse all other pages for more news and articles pages
