@@ -32,6 +32,12 @@ class QuotesSpider(scrapy.Spider):
             for hyperlink in response.xpath('//a'):
                 url = hyperlink.xpath('./@href').get()
                 
+                # check if url has format "/av/...". These are bbc audio/visual reports
+                if re.search("\/av\/", url):
+                    if not re.search('bbc.co',url):
+                        url = os.environ.get('WEBSITE_BASE_URL') + url
+                    yield scrapy.Request(url=url, callback=page_scrapper.parse_av_page) 
+                
                 # check if url has format "/news/...{7 digit id starting with 6}". These are bbc news reports
                 if re.search("\/news\/.*6\d{7}", url):
                     if not re.search('bbc.co',url):

@@ -64,3 +64,25 @@ class PageScrapper():
         
         yield {'url': url}
     
+
+    # parse the bbc news pages.
+    def parse_av_page(self,response):
+        url = response.request.url
+    
+        page_body_content = []
+        
+        for paragraph in enumerate((response.css('[class="ssrcss-1s1kjo7-RichTextContainer e5tfeyi1"]')).xpath('p')):
+            para_div_content = paragraph[1].xpath('text()').get()
+            
+            if not para_div_content is None:
+                page_body_content.append(para_div_content)  
+        
+        data = {
+                "url": url, 
+                "headline": response.css('[id="main-heading"]::text').get(),
+                "body": page_body_content  
+               }
+        
+        self.insert_page(data)
+    
+        yield {'url': url}
