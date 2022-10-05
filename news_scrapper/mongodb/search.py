@@ -3,40 +3,56 @@ import re
 
 
 
-def search(mongodb: MongoDB, database: str, collection: str, keyword: str):
-    
-    headline_result = search_headline(mongodb, database, collection, keyword)
+# search keyword both in headline and body content
+def search(connection_url: str, database: str, collection: str, keyword: str):
 
-    if headline_result.count() == 0:
-        article_body_result = search_article_body(mongodb, database, collection, keyword)
-        result_to_return = article_body_result
-    else:
-        result_to_return = headline_result
+    # get headline that contains the keyword
+    headline_result = search_headline(connection_url, database, collection, keyword)
+    headline_result_list = [result for result in headline_result]
+
+    # get results of search article body that are not in headline search result  
+    headline_result_urls = [result['url'] for result in headline_result_list]
+    article_body_result = search_article_body(connection_url, database, collection, keyword)
+    article_body_result_without_headline_result = [result for result in article_body_result if result['url'] not in headline_result_urls]
+    
+    result_to_return = headline_result_list + article_body_result_without_headline_result
 
     return result_to_return
 
 
 
-def search_headline(mongodb: MongoDB, database: str, collection: str, keyword: str):
-    mongodb.set_db(database)
-    mongodb.set_collection(collection)
+# search keyword in headline
+def search_headline(connection_url: str, database: str, collection: str, keyword: str):
+    
+    mongo_instance = MongoDB()
+    mongo_instance.create_mongo_client(connection_url)
+    
+    mongo_instance.set_db(database)
+    mongo_instance.set_collection(collection)
 
+    # build regex using the keyword. The regex looks for whole word within the text to be searched
     regx = re.compile(r"\b" + re.escape(keyword) + r"\b", re.IGNORECASE)
     query_condition = {"headline": regx}
 
-    result = mongodb.find_document(query_condition)
+    result = mongo_instance.find_document(query_condition)
 
     return result
 
 
-def search_article_body(mongodb: MongoDB, database: str, collection: str, keyword: str):
-    mongodb.set_db(database)
-    mongodb.set_collection(collection)
+# search keyword in page body
+def search_article_body(connection_url: str, database: str, collection: str, keyword: str):
+    
+    mongo_instance = MongoDB()
+    mongo_instance.create_mongo_client(connection_url)
+    
+    mongo_instance.set_db(database)
+    mongo_instance.set_collection(collection)
 
+    # build regex using the keyword. The regex looks for whole word within the text to be searched
     regx = re.compile(r"\b" + re.escape(keyword) + r"\b", re.IGNORECASE)
     query_condition = {"body": regx}
 
-    result = mongodb.find_document(query_condition)
+    result = mongo_instance.find_document(query_condition)
 
     return result
 
