@@ -21,7 +21,7 @@ def search_headline(mongodb: MongoDB, database: str, collection: str, keyword: s
     mongodb.setDb(database)
     mongodb.setCollection(collection)
 
-    regx = re.compile(keyword, re.IGNORECASE)
+    regx = re.compile(r"\b" + re.escape(keyword) + r"\b", re.IGNORECASE)
     query_condition = {"headline": regx}
 
     result = mongodb.findDocument(query_condition)
@@ -33,8 +33,10 @@ def search_article_body(mongodb: MongoDB, database: str, collection: str, keywor
     mongodb.setDb(database)
     mongodb.setCollection(collection)
 
-    regx = re.compile(keyword, re.IGNORECASE)
+    regx = re.compile(r"\b" + re.escape(keyword) + r"\b", re.IGNORECASE)
     query_condition = {"body": regx}
+
+    print(query_condition)
 
     result = mongodb.findDocument(query_condition)
 
