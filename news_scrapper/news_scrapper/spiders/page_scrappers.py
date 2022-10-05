@@ -8,7 +8,7 @@ class PageScrapper():
     
     def insert_page(self,page_data):
         mongo_instance = MongoDB()
-        mongo_instance.createMongoClient(os.environ.get('MONGODB_URL'))
+        mongo_instance.create_mongo_client(os.environ.get('MONGODB_URL'))
 
         result = insertModule.insert_article(mongo_instance, os.environ.get('Mongo_Database'), os.environ.get('Mongo_Collection'), page_data)
         return result

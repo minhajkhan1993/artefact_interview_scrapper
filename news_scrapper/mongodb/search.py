@@ -18,27 +18,25 @@ def search(mongodb: MongoDB, database: str, collection: str, keyword: str):
 
 
 def search_headline(mongodb: MongoDB, database: str, collection: str, keyword: str):
-    mongodb.setDb(database)
-    mongodb.setCollection(collection)
+    mongodb.set_db(database)
+    mongodb.set_collection(collection)
 
     regx = re.compile(r"\b" + re.escape(keyword) + r"\b", re.IGNORECASE)
     query_condition = {"headline": regx}
 
-    result = mongodb.findDocument(query_condition)
+    result = mongodb.find_document(query_condition)
 
     return result
 
 
 def search_article_body(mongodb: MongoDB, database: str, collection: str, keyword: str):
-    mongodb.setDb(database)
-    mongodb.setCollection(collection)
+    mongodb.set_db(database)
+    mongodb.set_collection(collection)
 
     regx = re.compile(r"\b" + re.escape(keyword) + r"\b", re.IGNORECASE)
     query_condition = {"body": regx}
 
-    print(query_condition)
-
-    result = mongodb.findDocument(query_condition)
+    result = mongodb.find_document(query_condition)
 
     return result
 

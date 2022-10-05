@@ -3,17 +3,17 @@ import os
 
 class MongoDB():
 
-    def createMongoClient(self, conn_url):
+    def create_mongo_client(self, conn_url):
         self.client = pymongo.MongoClient(conn_url)
     
-    def setDb(self, db: str):
+    def set_db(self, db: str):
         self.db = self.client[db]
 
-    def setCollection(self, collection: str):
+    def set_collection(self, collection: str):
         self.col = self.db[collection]
 
-    def insertDocument(self, document: dict):
+    def insert_document(self, document: dict):
         self.col.insert_one(document)
     
-    def findDocument(self, condition: dict):
+    def find_document(self, condition: dict):
         return self.col.find(condition, {"_id": 0})

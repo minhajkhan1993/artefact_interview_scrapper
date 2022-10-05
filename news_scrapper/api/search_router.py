@@ -10,7 +10,7 @@ mongo_router = APIRouter()
 @mongo_router.get("/{key_word}")
 def search(key_word: str) -> dict:
     mongo_instance = MongoDB()
-    mongo_instance.createMongoClient(os.environ.get('MONGODB_URL'))
+    mongo_instance.create_mongo_client(os.environ.get('MONGODB_URL'))
 
     result = searchModule.search(mongo_instance, os.environ.get('Mongo_Database'), os.environ.get('Mongo_Collection'), key_word)
 
@@ -28,7 +28,7 @@ def search(key_word: str) -> dict:
 @mongo_router.get("/headline/{key_word}")
 def search_headline(key_word: str) -> dict:
     mongo_instance = MongoDB()
-    mongo_instance.createMongoClient(os.environ.get('MONGODB_URL'))
+    mongo_instance.create_mongo_client(os.environ.get('MONGODB_URL'))
 
     result = searchModule.search_headline(mongo_instance, os.environ.get('Mongo_Database'), os.environ.get('Mongo_Collection'), key_word)
 
@@ -46,7 +46,7 @@ def search_headline(key_word: str) -> dict:
 @mongo_router.get("/article_body/{key_word}")
 def search_article_body(key_word: str) -> dict:
     mongo_instance = MongoDB()
-    mongo_instance.createMongoClient(os.environ.get('MONGODB_URL'))
+    mongo_instance.create_mongo_client(os.environ.get('MONGODB_URL'))
 
     result = searchModule.search_article_body(mongo_instance, os.environ.get('Mongo_Database'), os.environ.get('Mongo_Collection'), key_word)
 
