@@ -13,7 +13,7 @@ class MongoDB():
         self.col = self.db[collection]
 
     def insert_document(self, document: dict):
-        self.col.insert_one(document)
+        return self.col.insert_one(document)
     
     def find_document(self, condition: dict):
         return self.col.find(condition, {"_id": 0})
