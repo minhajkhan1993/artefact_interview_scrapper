@@ -35,6 +35,9 @@ Then it will run scrapy crawler for the url provided in the WEBSITE env variable
 Then it will run uvicorn process, uvicorn is the web server under the FastAPI
 
 
+To run just the server without running the crawler first, use the script run-api.sh
+
+
 
 ## API
 
