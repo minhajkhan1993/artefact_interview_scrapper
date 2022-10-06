@@ -1,5 +1,16 @@
 # artefcact_interview_scrapper
 
+## Overview
+
+The repository contains the code for Artefact coding challenge. 
+
+The website used for this assignment was https://www.bbc.com/news. This is provided as an environment valriable defined in a shell script.
+
+The scraper parses news, op-ed articles, video report pages from bbc and stores the results in a mongodb database.
+
+The mongodb database can be queried using api endpoints. 
+
+
 ## Main components
 **Crawler** scrapy
 
@@ -14,6 +25,8 @@ cd into artefact_interview_scrapper/news_scrapper
 
 run ./run.sh
 
+
+The libraries, other than the standard python libraries, are listed in requirements.txt
 
 The script will set a few environment variables.  
 
