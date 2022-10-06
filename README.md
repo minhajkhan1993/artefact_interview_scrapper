@@ -58,3 +58,5 @@ The cloud MongoDB interface can be accessed using the email minhaj.u.salam@gmail
 ## Testing
 
 The test script is in test.sh.
+
+To test the api modules, the api server must be running. 
