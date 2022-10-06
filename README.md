@@ -36,3 +36,9 @@ I was unable to create an account on compose.io/mongo so I used [MongoDB Atlas p
 However, the app is not dependant on the mongo hosting service. The connection string that I used is hardcoded in run.sh, but it can be changed.
 
 The cloud MongoDB interface can be accessed using the email minhaj.u.salam@gmail.com and the password mongoPass123.
+
+
+
+## Testing
+
+The test script is in test.sh.
